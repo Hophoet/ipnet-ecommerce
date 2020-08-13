@@ -5,7 +5,7 @@ from rest_framework import status
 
 
 from .models import *
-from .serializers import CategorieSerializer, ProduitSerializer
+from .serializers import CategorieSerializer, ProduitSerializer, ImagesSerializer
 
 
 #Gestion des catégories
@@ -27,7 +27,15 @@ def enregistrerCategorie(request):
 			serializer.save()
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-	
+@api_view(['GET'])
+def detailCategorie(request, id):
+	'''Fonction pour le detail d'une categorie'''
+	try:
+		categorie = Categorie.objects.get(id=id)
+	except Exception as e:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	serializer = CategorieSerializer(categorie)
+	return Response(serializer.data, status=status.HTTP_200_OK)
 
 #Gestion des Produits
 
@@ -59,3 +67,23 @@ def enregistrerProduit(request):
 			return Response(serializer.data, status=status.HTTP_201_CREATED)
 	return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 	
+
+#Gestion des Images
+
+@api_view(['GET'])
+def listeImages(request):
+	'''Fonction pour lister les images'''
+	images = Images.objects.all()
+	serializer = ImagesSerializer(images, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+@api_view(['GET'])
+def detailImage(request, id):
+	'''Fonction pour le detail d'une images'''
+	try:
+		images = Images.objects.filter(produit_id=id)
+	except Exception as e:
+		return Response(status=status.HTTP_404_NOT_FOUND)
+	serializer = ImagesSerializer(images, many=True)
+	return Response(serializer.data, status=status.HTTP_200_OK)
