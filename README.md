@@ -1,3 +1,4 @@
+
 #initial 
 
 13/08/2020
@@ -22,3 +23,5 @@ Modification du fichier urls.py en ajoutant un path d'accueil
 
 Ajout des dossiers template et static
 
+
+#Si la migration n'éffectue pas, veuillez éffacer les fichiers dans le dossier migrations sans éffacer le fichier _init__.py
