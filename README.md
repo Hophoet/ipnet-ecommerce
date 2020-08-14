@@ -23,5 +23,4 @@ Modification du fichier urls.py en ajoutant un path d'accueil
 
 Ajout des dossiers template et static
 
-
-#Si la migration n'éffectue pas, veuillez éffacer les fichiers dans le dossier migrations sans éffacer le fichier _init__.py
+#Si la migration n'éffectue pas, veuillez éffacer les fichiers dans le dossier migrations sans éffacer le fichier _init__.py et aller éffacer le contenu du fichier db.sqlite3
