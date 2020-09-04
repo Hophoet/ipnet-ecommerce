@@ -45,10 +45,11 @@
                                     <td class="cart__price-wrapper cart-flex-item">
                                         <span class="money">
                                             {% if order_item.item.discount_price %}
-                                            ${{order_item.item.discount_price}}
+                                                {{order_item.item.discount_price}}
                                             {% else %}
-                                            ${{order_item.item.price}}
+                                                {{order_item.item.price}}
                                             {% endif %}
+                                            Fcfa
                                         </span>
                                     </td>
                                     <td class="cart__update-wrapper cart-flex-item text-right">
@@ -63,10 +64,11 @@
                                     <td class="text-right small--hide cart-price">
                                         <div><span class="money">
                                             {% if order_item.item.discount_price %}
-                                                ${{ order_item.get_total_discount_item_price }}
+                                                {{ order_item.get_total_discount_item_price }}
                                                 {% else %}
-                                                ${{ order_item.get_total_item_price }}
+                                                {{ order_item.get_total_item_price }}
                                             {% endif %}
+                                            Fcfa
                                         </span></div>
                                     </td>
                                     <td class="text-center small--hide"><a href="{% url 'core:remove_from_cart' id=order_item.item.id %}" class="btn btn--secondary cart__remove" title="Enlever le produit"><i class="icon icon anm anm-times-l"></i></a></td>
@@ -94,7 +96,7 @@
                         {% endif %}
                     </table>
                     
-                    <div class="currencymsg">Nous traitons toutes les commandes en USD. Alors que le contenu de votre panier est actuellement affiché en USD, le paiement utilisera USD au taux de change le plus courant.</div>
+                    <div class="currencymsg">Nous traitons toutes les commandes en Fcfa. Le paiement utilisera Fcfa au taux de change le plus courant.</div>
                     <hr>
 					<!-- <div id="shipping-calculator" class="mb-4">
                     	<h5 class="small--text-center">Get shipping estimates</h5>
@@ -357,7 +359,7 @@
                     <div class="solid-border">
                       <div class="row">
                       	<span class="col-12 col-sm-6 cart__subtotal-title"><strong>Total</strong></span>
-                        <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money">${{order.get_total_price}}</span></span>
+                        <span class="col-12 col-sm-6 cart__subtotal-title cart__subtotal text-right"><span class="money">{{order.get_total_price}} Fcfa</span></span>
                       </div>
                       <div class="cart__shipping">Expédition &amp; taxes calculées à la caisse
                       </div>

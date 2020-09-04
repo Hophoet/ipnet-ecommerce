@@ -102,20 +102,20 @@
                                     <p class="product-single__price product-single__price-product-template">
                                         <span class="visually-hidden">Regular price</span>
                                         {% if item.discount_price %}
-                                        <s id="ComparePrice-product-template"><span class="money">${{item.price}}</span></s>
+                                        <s id="ComparePrice-product-template"><span class="money">{{item.price}} Fcfa</span></s>
                                         <span class="product-price__price product-price__price-product-template product-price__sale product-price__sale--single">
-                                            <span id="ProductPrice-product-template"><span class="money">${{item.discount_price}}</span></span>
+                                            <span id="ProductPrice-product-template"><span class="money">{{item.discount_price}} Fcfa</span></span>
                                         </span>
                                         <span class="discount-badge"> <span class="devider">|</span>&nbsp;
                                             <span>Vous economisez</span>
                                             <span id="SaveAmount-product-template" class="product-single__save-amount">
-                                            <span class="money">${{item.get_save_price}}</span>
+                                            <span class="money">{{item.get_save_price}} Fcfa</span>
                                             </span>
                                             <span class="off">(<span>{{item.get_save_price_pourcentage}}</span>%)</span>
                                         </span>  
                                         {% else %}
                                         <span class="product-price__price product-price__price-product-template product-price__sale product-price__sale--single">
-                                            <span id="ProductPrice-product-template"><span class="money">${{item.price}}</span></span>
+                                            <span id="ProductPrice-product-template"><span class="money">{{item.price}} Fcfa</span></span>
                                         </span>
 
                                       {% endif %}

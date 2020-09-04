@@ -59,10 +59,10 @@
         <!-- product price -->
         <div class="product-price">
             {% if item.discount_price %}
-            <span class="old-price">${{item.price}}</span>
-            <span class="price">${{item.discount_price}}</span>
+            <span class="old-price">{{item.price}} Fcfa</span>
+            <span class="price">{{item.discount_price}} Fcfa</span>
             {% else %}
-            <span class="price">${{ item.price }}</span>
+            <span class="price">{{ item.price }} Fcfa</span>
             {% endif %}
             
         </div>

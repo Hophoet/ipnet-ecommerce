@@ -155,7 +155,7 @@
                                       </div> -->
                                       <div class="priceRow">
                                         <div class="product-price">
-                                            <span class="money">${% if order_item.item.discount_price %} {{order_item.item.discount_price}} {% else%}  {{order_item.item.price}} {% endif %}</span>
+                                            <span class="money">{% if order_item.item.discount_price %} {{order_item.item.discount_price}} {% else%}  {{order_item.item.price}} {% endif %} Fcfa</span>
                                           </div>
                                        </div>
                 </div>
@@ -166,7 +166,7 @@
                           </ul>
                           <div class="total">
                             <div class="total-in">
-                                <span class="label">Prix Total du Panier:</span><span class="product-price"><span class="money">${{order.get_total_price}}</span></span>
+                                <span class="label">Prix Total du Panier:</span><span class="product-price"><span class="money">{{order.get_total_price}} Fcfa</span></span>
                               </div>
                                <div class="buttonSet text-center">
                                   <a href="{% url 'core:cart' %}" class="btn btn-secondary btn--small">Afficher le panier</a>
