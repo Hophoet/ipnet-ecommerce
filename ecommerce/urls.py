@@ -28,7 +28,8 @@ urlpatterns = [
     path('api/', include('api.urls')),
 
 
-    path('', views.accueil, name="accueil"),
+    # path('', views.accueil, name="accueil"),
+    path('', include('core.urls')),
 
 ]
 if settings.DEBUG:
