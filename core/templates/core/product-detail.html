@@ -92,8 +92,7 @@
                                             {% if item.quantity %}
                                             <span class="instock ">En Stock </span> 
                                             {% else %}
-                                            <span class="outstock hide">Unavailable</span> 
-                                            <span>Unavailable</span>
+                                            <span class="outstock ">Pas En Stock</span> 
                                             {% endif %}
                                         </div>
                                         
@@ -179,7 +178,7 @@
                             	<!--Product Tabs-->
                                 <div class="tabs-listing">
                                     <div class="tab-container">
-                                    	<h3 class="acor-ttl active" rel="tab1">Detail de produit</h3>
+                                    	<h3 class="acor-ttl active" rel="tab1">Detail du produit</h3>
                                         <div id="tab1" class="tab-content">
                                             <div class="product-description rte">
                                                 <p>{{item.description}}</p>

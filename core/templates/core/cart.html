@@ -15,7 +15,9 @@
         	<div class="row">
                 <div class="col-12 col-sm-12 col-md-8 col-lg-8 main-col">
                 	<form action="#" method="post" class="cart style2">
-                		<table>
+                		
+                    <table>
+                        {% if order.items.all %}
                             <thead class="cart__row cart__header">
                                 <tr>
                                     <th colspan="2" class="text-center">Produit</th>
@@ -29,16 +31,16 @@
                                 {% for order_item in order.items.all %}
                                 <tr class="cart__row border-bottom line1 cart-flex border-top">
                                     <td class="cart__image-wrapper cart-flex-item">
-                                        <a href="#"><img class="cart__image" src="{{ order_item.item.image.url }}" alt="{{ order_item.item.title|truncatewords:10 }}"></a>
+                                        <a href="{% url 'core:product' id=order_item.item.id %}"><img class="cart__image" src="{{ order_item.item.image.url }}" alt="{{ order_item.item.title|truncatewords:10 }}"></a>
                                     </td>
                                     <td class="cart__meta small--text-left cart-flex-item">
                                         <div class="list-view-item__title">
-                                            <a href="#">{{ order_item.item.title|truncatewords:10 }} </a>
+                                            <a href="{% url 'core:product' id=order_item.item.id %}">{{ order_item.item.title|truncatewords:5 }} </a>
                                         </div>
                                         
-                                        <div class="cart__meta-text">
+                                        <!-- <div class="cart__meta-text">
                                             Color: Navy<br>Size: Small<br>
-                                        </div>
+                                        </div> -->
                                     </td>
                                     <td class="cart__price-wrapper cart-flex-item">
                                         <span class="money">
@@ -53,7 +55,7 @@
                                         <div class="cart__qty text-center">
                                             <div class="qtyField">
                                                 <a class="qtyBtn minus" href="javascript:void(0);"><i class="icon icon-minus"></i></a>
-                                                <input class="cart__qty-input qty" type="text" name="updates[]" id="qty" value="1" pattern="[0-9]*">
+                                                <input class="cart__qty-input qty" type="text" name="updates[]" id="qty" value="{{ order_item.quantity }}" pattern="[0-9]*">
                                                 <a class="qtyBtn plus" href="javascript:void(0);"><i class="icon icon-plus"></i></a>
                                             </div>
                                         </div>
@@ -67,16 +69,29 @@
                                             {% endif %}
                                         </span></div>
                                     </td>
-                                    <td class="text-center small--hide"><a href="#" class="btn btn--secondary cart__remove" title="Remove tem"><i class="icon icon anm anm-times-l"></i></a></td>
+                                    <td class="text-center small--hide"><a href="{% url 'core:remove_from_cart' id=order_item.item.id %}" class="btn btn--secondary cart__remove" title="Enlever le produit"><i class="icon icon anm anm-times-l"></i></a></td>
                                 </tr>
                                 {% endfor %}
                             </tbody>
                     		<tfoot>
                                 <tr>
-                                    <td colspan="3" class="text-left"><a href="http://annimexweb.com/" class="btn--link cart-continue"><i class="icon icon-arrow-circle-left"></i> Continuer vos achats</a></td>
-                                    <td colspan="3" class="text-right"><button type="submit" name="update" class="btn--link cart-update"><i class="fa fa-refresh"></i> Mettre à jour</button></td>
+                                    <td colspan="3" class="text-left"><a href="{% url 'core:home' %}" class="btn--link cart-continue"><i class="icon icon-arrow-circle-left"></i> Continuer vos achats</a></td>
+                                    <!-- <td colspan="3" class="text-right"><a href="" class="btn--link cart-update"><i class="fa fa-refresh"></i> Mettre à jour</a></td> -->
                                 </tr>
                             </tfoot>
+                            {% else %}
+                            <thead class="cart__row cart__header">
+                                <tr>
+                                    <th colspan="5" class="text-center">Votre panier est vide</th>
+                                 
+                                </tr>
+                            </thead>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="3" class="text-left"><a href="{% url 'core:home' %}" class="btn--link cart-continue"><i class="icon icon-arrow-circle-left"></i> Continuer vos achats</a></td>
+                                </tr>
+                            </tfoot>
+                        {% endif %}
                     </table>
                     
                     <div class="currencymsg">Nous traitons toutes les commandes en USD. Alors que le contenu de votre panier est actuellement affiché en USD, le paiement utilisera USD au taux de change le plus courant.</div>
@@ -338,6 +353,7 @@
 							<textarea name="note" id="CartSpecialInstructions" class="cart-note__input"></textarea>
 						</div>
                     </div> -->
+                    {% if order.items.all %}
                     <div class="solid-border">
                       <div class="row">
                       	<span class="col-12 col-sm-6 cart__subtotal-title"><strong>Total</strong></span>
@@ -353,6 +369,7 @@
                       <input type="submit" name="commander" id="cartCheckout" class="btn btn--small-wide checkout" value="commander" disabled="disabled">
                       <!-- <div class="paymnet-img"><img src="assets/images/payment-img.jpg" alt="Payment"></div> -->
                     </div>
+                    {% endif %}
 
                 </div>
             </div>
