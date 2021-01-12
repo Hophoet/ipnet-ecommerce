@@ -73,7 +73,7 @@ def enregistrerProduit(request):
 @api_view(['GET'])
 def listeImages(request):
 	'''Fonction pour lister les images'''
-	images = Images.objects.all()
+	images = Image.objects.all()
 	serializer = ImagesSerializer(images, many=True)
 	return Response(serializer.data, status=status.HTTP_200_OK)
 
