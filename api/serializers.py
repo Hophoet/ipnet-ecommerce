@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Categorie, Produit, Images
+from .models import Categorie, Produit, Image
 
 class CategorieSerializer(serializers.ModelSerializer):
 	"""docstring for EleveSerializer"""
@@ -24,6 +24,6 @@ class ImagesSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		"""docstring for Meta"""
-		model = Images
+		model = Image
 		fields = '__all__'
 		
