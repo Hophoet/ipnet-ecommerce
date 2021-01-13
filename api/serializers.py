@@ -35,7 +35,7 @@ class ProduitCommanderSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		"""docstring for Meta"""
-		model = ProduitCommander
+		model = ProduitACommander
 		fields = '__all__'
 
 
