@@ -65,6 +65,13 @@ class Image(models.Model):
 class Panier(models.Model):
     utilisateur = models.ForeignKey(Utilisateur, on_delete=models.CASCADE)
     estCommander = models.BooleanField(default=False)
+    
+    def get_prix_total(self):
+        produits_a_commander = self.produitacommander_set.get_queryset()
+        prix_total = 0
+        for produit_a_commander in produits_a_commander:
+    	    prix_total += produit_a_commander.quantite * produit_a_commander.produit.prix
+        return prix_total
 
 class ProduitACommander(models.Model):
 	produit = models.ForeignKey('Produit', on_delete=models.CASCADE)
