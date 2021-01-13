@@ -67,6 +67,9 @@ class ProduitACommander(models.Model):
 	quantite = models.IntegerField(verbose_name="Quantité")
 	estCommander = models.BooleanField(default=False)
 
+	def get_prix_total(self):
+		return self.produit.prix * self.quantite
+
 class Livraison(models.Model):
     date = models.DateTimeField()
     lieu = models.CharField(max_length=100)
