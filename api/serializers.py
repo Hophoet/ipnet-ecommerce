@@ -31,11 +31,11 @@ class ProduitSerializer(serializers.ModelSerializer):
 		model = Produit
 		fields = '__all__'
 		
-class ProduitCommanderSerializer(serializers.ModelSerializer):
+class ProduitACommanderSerializer(serializers.ModelSerializer):
 	
 	class Meta:
 		"""docstring for Meta"""
-		model = ProduitCommander
+		model = ProduitACommander
 		fields = '__all__'
 
 
