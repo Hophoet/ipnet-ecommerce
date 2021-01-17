@@ -6,5 +6,6 @@ urlpatterns = [
     path('fournisseurs/', views.FournisseursListe().as_view(), name='fournisseurs'),
     path('commandes/', views.UtilisateurCommandesListe().as_view(), name='commandes'),
     path('ajout-au-panier/<int:produit_id>/',
-         views.AjoutAuPanierView().as_view(), name='ajout_au_panier')
+         views.AjoutAuPanierView().as_view(), name='ajout_au_panier'),
+    path('commander/', views.CommanderView().as_view(), name='commander')
 ]
