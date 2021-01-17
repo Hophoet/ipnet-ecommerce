@@ -1,11 +1,14 @@
 from django.shortcuts import render
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
+
 from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.views import APIView
 
 from .models import *
-from .serializers import CategorieSerializer, ProduitSerializer, ImagesSerializer, FournisseurSerializer
+from .serializers import(CategorieSerializer, ProduitSerializer,
+                         ImagesSerializer, FournisseurSerializer, CommandeSerializer)
 
 
 class CategoriesListe(APIView):
@@ -29,3 +32,14 @@ class FournisseursListe(APIView):
         fournisseurs_serializer = FournisseurSerializer(
             fournisseurs, many=True)
         return Response(fournisseurs_serializer.data, status=status.HTTP_200_OK)
+
+
+class UtilisateurCommandesListe(APIView):
+    """ recupération de tous les commandes d'un utillisateur """
+    permission_classes = (IsAuthenticated,)
+
+    def get(self, request, *args, **kwargs):
+        """ methode pour la requette get """
+        commandes = Commande.objects.filter(panier__utilisateur=request.user)
+        commandes_serializer = CommandeSerializer(commandes, many=True)
+        return Response(commandes_serializer.data, status=status.HTTP_200_OK)
