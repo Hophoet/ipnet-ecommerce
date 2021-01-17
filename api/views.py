@@ -79,3 +79,21 @@ class AjoutAuPanierView(APIView):
         # produit n'est pas contenu dans le panier
         panier.produitacommander_set.add(produit_a_commander)
         return Response({'text': 'produit ajoute avec succes!'})
+
+
+class CommanderView(APIView):
+    """ ajout au panier """
+    permission_classes = (IsAuthenticated,)
+
+    def post(self, request, *args, **kwargs):
+        # recuperation ou creation du panier
+        panier, panier_est_cree = Panier.objects.get_or_create(
+            utilisateur=request.user,
+            estCommander=False
+        )
+
+        # create livraison
+        # make payment
+        # create commandes
+
+        return Response({'text': 'pas encore implementer!'})
