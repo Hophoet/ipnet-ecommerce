@@ -26,7 +26,12 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
-
+    path('api-auth/', include('rest_framework.urls')),
+    # rest-auth/login/{username, password}
+    # rest-auth/logout/
+    path('rest-auth/', include('rest_auth.urls')),
+    # rest-auth/register/{username, password1, password2, email}
+    path('rest-auth/register/', include('rest_auth.registration.urls')),
 
 ]
 if settings.DEBUG:
