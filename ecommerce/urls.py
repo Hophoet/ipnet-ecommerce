@@ -21,18 +21,14 @@ from django.urls import path, include
 
 from . import views
 
-#from django.config.urls import url 
+#from django.config.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
 
 
-    # path('', views.accueil, name="accueil"),
-    path('', include('core.urls')),
-
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
-
