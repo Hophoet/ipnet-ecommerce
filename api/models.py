@@ -81,8 +81,11 @@ class Panier(models.Model):
 
 
 class ProduitACommander(models.Model):
+    utilisateur = models.ForeignKey(
+        Utilisateur, on_delete=models.CASCADE)
     produit = models.ForeignKey('Produit', on_delete=models.CASCADE)
-    panier = models.ForeignKey('Panier', on_delete=models.CASCADE)
+    panier = models.ForeignKey(
+        'Panier', on_delete=models.CASCADE, blank=True, null=True)
     quantite = models.IntegerField(verbose_name="Quantité")
     estCommander = models.BooleanField(default=False)
 
