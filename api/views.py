@@ -48,30 +48,34 @@ class UtilisateurCommandesListe(APIView):
         return Response(commandes_serializer.data, status=status.HTTP_200_OK)
 
 
-@login_required
-def ajout_au_panier(request, produit_id):
+class AjoutAuPanierView(APIView):
     """ ajout au panier """
-    # recuperation du produit
-    produit = get_object_or_404(Produit, id=produit_id)
-    # recuperation ou create du produit a commander
-    produit_a_commander, produit_a_commander_est_cree = ProduitACommander.objects.get_or_create(
-        produit=produit,
-        utilisateur=request.user,
-        quantite=1,
-        estCommander=False
-    )
-    # recuperation ou creation du panier
-    panier, panier_est_cree = Panier.objects.get_or_create(
-        utilisateur=request.user,
-        estCommander=False
-    )
+    permission_classes = (IsAuthenticated,)
 
-    # verification de l'existance du produit_a_commander dans le panier
-    produit_a_commander_est_contenu_dans_le_panier = produit_a_commander in panier.produitacommander_set.get_queryset()
+    def get(self, request, *args, **kwargs):
+        # recuperation du produit
+        produit_id = kwargs.get('produit_id')
+        print('produit id', produit_id)
+        produit = get_object_or_404(Produit, id=produit_id)
+        # recuperation ou create du produit a commander
+        produit_a_commander, produit_a_commander_est_cree = ProduitACommander.objects.get_or_create(
+            produit=produit,
+            utilisateur=request.user,
+            quantite=1,
+            estCommander=False
+        )
+        # recuperation ou creation du panier
+        panier, panier_est_cree = Panier.objects.get_or_create(
+            utilisateur=request.user,
+            estCommander=False
+        )
 
-    # produit  est contenu dans le panier
-    if produit_a_commander_est_contenu_dans_le_panier:
-        return JsonResponse({'text': 'produit est deja au panier'})
-    # produit n'est pas contenu dans le panier
-    panier.produitacommander_set.add(produit_a_commander)
-    return JsonResponse({'text': 'produit ajoute avec succes!'})
+        # verification de l'existance du produit_a_commander dans le panier
+        produit_a_commander_est_contenu_dans_le_panier = produit_a_commander in panier.produitacommander_set.get_queryset()
+
+        # produit  est contenu dans le panier
+        if produit_a_commander_est_contenu_dans_le_panier:
+            return Response({'text': 'produit est deja au panier'})
+        # produit n'est pas contenu dans le panier
+        panier.produitacommander_set.add(produit_a_commander)
+        return Response({'text': 'produit ajoute avec succes!'})
