@@ -44,7 +44,7 @@ class Produit(models.Model):
     quantite = models.IntegerField(verbose_name="Quantité")
     categories = models.ManyToManyField(Categorie, related_name='produits')
     fournisseur = models.ForeignKey(
-        'Fournisseur', on_delete=models.CASCADE, verbose_name="Fournisseur")
+        'Fournisseur', on_delete=models.CASCADE, verbose_name="fournisseur_id")
 
     def __str__(self):
         return "{}".format(self.nom)
