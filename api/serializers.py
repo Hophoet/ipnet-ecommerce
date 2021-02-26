@@ -1,6 +1,13 @@
 from rest_framework import serializers
 from .models import *
+from django.contrib.auth.models import User
 
+class UserSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		"""docstring for Meta"""
+		model = User
+		fields = '__all__'
 
 class UtilisateurSerializer(serializers.ModelSerializer):
 	
@@ -17,20 +24,41 @@ class FournisseurSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 class CategorieSerializer(serializers.ModelSerializer):
-	
+	categorieMere = serializers.SerializerMethodField()
+
+	class Meta:
+		"""docstring for Meta"""
+		model = Categorie
+		fields = '__all__'
+
+	def get_categorieMere(self, obj):
+		if obj.categorieMere is not None:
+			return CategorieSerializer(obj.categorieMere).data
+		else:
+			return None
+		
+class CategorieCreatedSerializer(serializers.ModelSerializer):
+
+
 	class Meta:
 		"""docstring for Meta"""
 		model = Categorie
 		fields = '__all__'
 		
-
 class ProduitSerializer(serializers.ModelSerializer):
-	
+	categories = CategorieSerializer(many=True, read_only=True)
+	fournisseur = FournisseurSerializer(many=False, read_only=True)
 	class Meta:
 		"""docstring for Meta"""
 		model = Produit
 		fields = '__all__'
-		
+
+class ProduitCreatedSerializer(serializers.ModelSerializer):
+	class Meta:
+		"""docstring for Meta"""
+		model = Produit
+		fields = '__all__'
+
 class ProduitACommanderSerializer(serializers.ModelSerializer):
 	
 	class Meta:
@@ -52,7 +80,12 @@ class PanierSerializer(serializers.ModelSerializer):
 		"""docstring for Meta"""
 		model = Panier
 		fields = '__all__'
-
+class PanierCreatedSerializer(serializers.ModelSerializer):
+	
+	class Meta:
+		"""docstring for Meta"""
+		model = Panier
+		fields = '__all__'
 
 class CommandeSerializer(serializers.ModelSerializer):
 	
