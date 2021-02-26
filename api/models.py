@@ -24,16 +24,17 @@ class Fournisseur(models.Model):
 
 
 class Categorie(models.Model):
-    """docstring for Category"""
-    nom = models.CharField(max_length=100, verbose_name="Nom de la catégorie")
-    description = models.TextField()
-
-    class Meta:
-        """docstring for Meta"""
-        unique_together = ['nom']
-
-    def __str__(self):
-        return "{}".format(self.nom)
+	"""docstring for Category"""
+	nom = models.CharField(max_length=100, verbose_name="Nom de la catégorie")
+	description = models.TextField()
+	categorieMere = models.ForeignKey('Categorie', on_delete=models.CASCADE, related_name='categorie_mere', null=True, blank=True)
+	
+	class Meta:
+		"""docstring for Meta"""
+		unique_together = ['nom']
+		
+		def __str__(self):
+			return "{}".format(self.nom)
 
 
 class Produit(models.Model):
