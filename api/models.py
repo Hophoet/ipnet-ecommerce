@@ -40,9 +40,10 @@ class Categorie(models.Model):
 class Produit(models.Model):
     nom = models.CharField(max_length=100, verbose_name="Nom du produit")
     prix = models.FloatField()
+    diminu_price = models.FloatField(null=True, blank=True)
     caracteristique = models.TextField(verbose_name="Caractéristique")
     quantite = models.IntegerField(verbose_name="Quantité")
-    categories = models.ManyToManyField(Categorie, related_name='produits')
+    categories = models.ManyToManyField(Categorie, related_name='Categories')
     fournisseur = models.ForeignKey(
         'Fournisseur', on_delete=models.CASCADE, verbose_name="fournisseur_id")
 
@@ -52,6 +53,17 @@ class Produit(models.Model):
     def get_images(self):
         """ retour un type queryset des images associées au produit"""
         return self.image_set.get_queryset()
+
+    def get_bonus_price(self):
+        if self.diminu_price:
+            return self.price - self.diminu_price
+        return self.price
+
+    def get_bonus_price_pourcentage(self):
+        if self.diminu_price:
+            return int( ( self.get_bonus_price() * 100 )/self.price )
+        return int( ( self.get_bonus_price() * 100 )/self.price )
+
 
 
 def envoi_image_nom(instance, filename):
@@ -82,16 +94,33 @@ class Panier(models.Model):
 
 
 class ProduitACommander(models.Model):
-    utilisateur = models.ForeignKey(
-        Utilisateur, on_delete=models.CASCADE)
+    #utilisateur = models.ForeignKey(
+    #    Utilisateur, on_delete=models.CASCADE)
     produit = models.ForeignKey('Produit', on_delete=models.CASCADE)
     panier = models.ForeignKey(
-        'Panier', on_delete=models.CASCADE, blank=True, null=True)
+        'Panier', on_delete=models.CASCADE)
     quantite = models.IntegerField(verbose_name="Quantité")
     estCommander = models.BooleanField(default=False)
+    #estCommander = models.BooleanField(default=False)
 
     def get_prix_total(self):
         return self.produit.prix * self.quantite
+
+    #total disount produit price getter
+    def get_total_diminu_produit_price(self):
+        """Total diminu produit price getter """
+        return self.produit.diminu_price * self.quantity
+
+    #total saved ammount getter
+    def get_bonus_total(self):
+        return self.get_prix_total() - self.get_total_diminu_produit_price()
+
+    #finale price getter
+    def get_final_price(self):
+        """finale price getter """
+        if self.produit.diminu_price:
+            return self.get_total_diminu_produit_price()
+        return self.get_prix_total()
 
 
 class Livraison(models.Model):

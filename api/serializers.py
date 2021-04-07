@@ -1,13 +1,42 @@
 from rest_framework import serializers
 from .models import *
 from django.contrib.auth.models import User
+from django.contrib.auth import authenticate
 
+#User Serialization
 class UserSerializer(serializers.ModelSerializer):
-	
 	class Meta:
 		"""docstring for Meta"""
 		model = User
-		fields = '__all__'
+		fields = ('id', 'username', 'first_name', 'last_name', 'email')
+
+#Register User Serialization
+class UserRegisterSerializer(serializers.ModelSerializer):
+	class Meta:
+		"""docstring for Meta"""
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password')
+		extra_kwargs = { 'password' : { 'write_only' : True } }
+
+	def create(self, validated_data):
+		user = User.objects.create_user(
+			validated_data['username'], 
+			validated_data['first_name'],
+			validated_data['last_name'],
+			validated_data['email'],
+			validated_data['password']
+		)
+		return user
+
+#Login User Serialization
+class LoginSerializer(serializers.Serializer):
+	username = serializers.CharField()
+	password = serializers.CharField()
+	def validate(self, data):
+		user = authenticate(**data)
+		if user and user.is_active:
+			return user
+		raise serializers.ValidationError("Identifiants incorrects")
 
 class UtilisateurSerializer(serializers.ModelSerializer):
 	

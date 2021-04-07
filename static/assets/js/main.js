@@ -24,7 +24,7 @@
 	 10.5 Product Slider Slick Fullwidth
 	 10.6 Product Slider Slick Product Page
 	 10.7 Collection Slider Slick
-	 10.8 Collection Slider Slick 4 items
+	 10.8 Collection Slider Slick 4 produits
 	 10.9 Logo Slider Slick
 	 10.10 Testimonial Slider Slick
   11. Tabs With Accordian Responsive
@@ -470,10 +470,10 @@
 	collection_slider();
 
 	/*-----------------------------------------
-	  10.8 Collection Slider Slick 4 items ----
+	  10.8 Collection Slider Slick 4 produits ----
 	  ----------------------------------------- */	  
 	function collection_slider1(){
-		$('.collection-grid-4item').slick({
+		$('.collection-grid-4produit').slick({
 			dots: false,
 			infinite: true,
 			slidesToShow: 4,
@@ -763,7 +763,7 @@
 	function productGridView() {
 	  var gridRows = []; 
 	  var tempRow = [];
-	  productGridElements = $('.grid-products .item');
+	  productGridElements = $('.grid-products .produit');
 	  productGridElements.each(function (index) {
 		if ($(this).css('clear') != 'none' && index != 0) {
 		  gridRows.push(tempRow);
@@ -1002,7 +1002,7 @@
 		$('.related-product .productSlider').slick({
 		  dots: false,
 		  infinite: true,
-		  item: 5,
+		  produit: 5,
 		  slidesToScroll: 1,
 		  responsive: [
 			{
@@ -1029,11 +1029,11 @@
 	  33. Infinite Scroll js
 	  -------------------------------------*/
 	function load_more(){
-        $(".product-load-more .item").slice(0, 16).show();
+        $(".product-load-more .produit").slice(0, 16).show();
         $(".loadMore").on('click', function (e) {
             e.preventDefault();
-            $(".product-load-more .item:hidden").slice(0, 4).slideDown();
-            if ($(".product-load-more .item:hidden").length == 0) {
+            $(".product-load-more .produit:hidden").slice(0, 4).slideDown();
+            if ($(".product-load-more .produit:hidden").length == 0) {
                 $(".infinitpagin").html('<div class="btn loadMore">no more products</div>');
             }
         });

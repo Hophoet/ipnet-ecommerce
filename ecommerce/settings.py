@@ -39,17 +39,19 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'rest_framework',
-    'rest_framework.authtoken',
-    'rest_auth',
+    #'rest_framework.authtoken',
+    #'rest_auth',
 
-    'django.contrib.sites',
-    'allauth',
-    'allauth.account',
-    'rest_auth.registration',
+    #'django.contrib.sites',
+    #'allauth',
+    #'allauth.account',
+    #'rest_auth.registration',
 
-    'core',
     'api',
+
+    #'knox',
 ]
+
 
 SITE_ID = 1
 
@@ -130,11 +132,10 @@ USE_TZ = True
 # REST FRAMEWORK
 
 REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework.authentication.TokenAuthentication'
-    ]
+    
 }
-
+#'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
+#'rest_framework.authentication.TokenAuthentication'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/

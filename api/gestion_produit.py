@@ -17,7 +17,15 @@ from .serializers import ProduitSerializer, ProduitCreatedSerializer
 def ajoutProduit(request):
     #{"nom":"produit7", "prix": 32000,"caracteristique": "Les caracterique", "quantite": 100, "categories": [1], "fournisseur":1}
     if request.method == 'POST' :
-        produit = ProduitCreatedSerializer(data=request.data)
+        produit = ProduitCreatedSerializer(data={
+            'nom' : request.data['nom'],
+            'prix' : request.data['prix'],
+            'diminu_price' : request.data['diminu_price'],
+            'caracteristique' : request.data['caracteristique'],
+            'quantite' : request.data['quantite'],
+            'categories' : request.data['categories']['id'],
+            'fournisseur' : request.data['fournisseur']['id'],
+        })
         if produit.is_valid():
             produit.save()
             return Response(produit.data, status.HTTP_201_CREATED)
@@ -37,7 +45,15 @@ def produit(request, id: int):
         return Response(ProduitSerializer(produit).data, status.HTTP_200_OK)
 
     elif request.method == 'PUT' :
-        serializer = ProduitCreatedSerializer(produit, data=request.data)
+        serializer = ProduitCreatedSerializer(produit, data={
+            'nom' : request.data['nom'],
+            'prix' : request.data['prix'],
+            'diminu_price' : request.data['diminu_price'],
+            'caracteristique' : request.data['caracteristique'],
+            'quantite' : request.data['quantite'],
+            'categories' : request.data['categories']['id'],
+            'fournisseur' : request.data['fournisseur']['id'],
+        })
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status.HTTP_200_OK)

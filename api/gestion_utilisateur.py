@@ -12,7 +12,6 @@ from .serializers import UtilisateurSerializer, UserSerializer
 
 @api_view(["POST"])
 def ajoutUtilisateur(request):
-    #
     if request.method == 'POST' :
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
