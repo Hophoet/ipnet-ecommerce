@@ -8,7 +8,7 @@ class UserSerializer(serializers.ModelSerializer):
 	class Meta:
 		"""docstring for Meta"""
 		model = User
-		fields = ('id', 'username', 'first_name', 'last_name', 'email')
+		fields = ('id', 'username', 'first_name', 'last_name', 'email', 'is_superuser')
 
 #Register User Serialization
 class UserRegisterSerializer(serializers.ModelSerializer):
@@ -21,12 +21,25 @@ class UserRegisterSerializer(serializers.ModelSerializer):
 	def create(self, validated_data):
 		user = User.objects.create_user(
 			validated_data['username'], 
-			validated_data['first_name'],
-			validated_data['last_name'],
 			validated_data['email'],
 			validated_data['password']
 		)
 		return user
+
+class UserRegisterSerializerSuper(serializers.ModelSerializer):
+	class Meta:
+		model = User
+		fields = ('id', 'username', 'first_name', 'last_name', 'email', 'password', 'is_superuser')
+		extra_kwargs = { 'password' : { 'write_only' : True } }
+
+	def create(self, validated_data):
+		user = User.objects.create_user(
+		validated_data['username'], 
+		validated_data['email'],
+		validated_data['password']
+		)
+		return user
+
 
 #Login User Serialization
 class LoginSerializer(serializers.Serializer):
@@ -96,12 +109,24 @@ class ProduitACommanderSerializer(serializers.ModelSerializer):
 		fields = '__all__'
 
 
-class ImagesSerializer(serializers.ModelSerializer):
+class ImagesSerializerOperation(serializers.ModelSerializer):
 	
 	class Meta:
 		"""docstring for Meta"""
 		model = Image
 		fields = '__all__'
+
+''' class ImagesSerializerOperation(serializers.ModelSerializer):
+	class Meta:
+		model = Image
+		fields = ('image', ) '''
+
+class ImagesSerializerReturn(serializers.ModelSerializer):
+	produit = ProduitSerializer(many=False, read_only=True)
+	class Meta:
+		model = Image
+		fields = '__all__'
+
 
 class PanierSerializer(serializers.ModelSerializer):
 	

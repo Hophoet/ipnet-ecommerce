@@ -33,6 +33,8 @@ urlpatterns = [
     # rest-auth/register/{username, password1, password2, email}
     path('rest-auth/register/', include('rest_auth.registration.urls')),
 
+    path('', views.home, name="home"),
+
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,

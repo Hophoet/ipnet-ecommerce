@@ -2,6 +2,8 @@ from django.db import models
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+import uuid
+from datetime import datetime
 
 # user model
 Utilisateur = settings.AUTH_USER_MODEL
@@ -10,7 +12,7 @@ Utilisateur = settings.AUTH_USER_MODEL
 class Fournisseur(models.Model):
     """docstring for Fournisseur"""
     nom = models.CharField(max_length=100, verbose_name="Nom du fournisseur ")
-    telephone = models.IntegerField(verbose_name="Téléphone du fournisseur ")
+    telephone = models.CharField(max_length=100, verbose_name="Téléphone du fournisseur ")
     adresse = models.TextField()
     email = models.EmailField()
     estPerson = models.BooleanField(default=False)
@@ -57,13 +59,22 @@ class Produit(models.Model):
     def get_bonus_price(self):
         if self.diminu_price:
             return self.price - self.diminu_price
-        return self.price
+        return 0
 
     def get_bonus_price_pourcentage(self):
-        if self.diminu_price:
-            return int( ( self.get_bonus_price() * 100 )/self.price )
         return int( ( self.get_bonus_price() * 100 )/self.price )
 
+
+def image_folder(instance, filename):
+    """
+        Cette fonction permet de générer un nom unique avec la date au début de celui-ci.
+        Toujours pratique d'avoir la date au début !
+        On en profite pour séparer les fichiers par utilisateur
+    """
+ 
+    filename = '{}-{}.{}'.format(datetime.today().replace(microsecond=0), uuid.uuid4().hex,
+                                    filename.split('.')[-1])
+    return 'images/produits/{}/{}'.format(instance.produit.nom, filename)
 
 
 def envoi_image_nom(instance, filename):
@@ -75,10 +86,10 @@ def envoi_image_nom(instance, filename):
 class Image(models.Model):
     produit = models.ForeignKey(
         'Produit', on_delete=models.CASCADE, default=None)
-    url = models.ImageField(upload_to=envoi_image_nom, null=True, blank=True)
+    image = models.ImageField(upload_to=image_folder, null=True, blank=True)
 
     def __str__(self):
-        return "{}".format(self.url)
+        return "{}".format(self.image)
 
 
 class Panier(models.Model):

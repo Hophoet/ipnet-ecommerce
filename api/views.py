@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+''' from django.shortcuts import render, get_object_or_404
 from django.http.response import JsonResponse
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
@@ -96,4 +96,4 @@ class CommanderView(APIView):
         # make payment
         # create commandes
 
-        return Response({'text': 'pas encore implementer!'})
+        return Response({'text': 'pas encore implementer!'}) '''

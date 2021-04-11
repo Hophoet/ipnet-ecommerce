@@ -1,13 +1,8 @@
-from django.shortcuts import render
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+from rest_framework import status
 
-from .APIRequete.classes import GestionProduit, GestionImage, GestionCategorie
-def accueil(request):
-	produits = [] #Initialisation de la liste des produits à vide
-	for produit in GestionProduit.getProduits(): #Parourir les produit
-		"""Changer ID des catégories par leur nom spécifique car dans le rendu c'est juste son ID qui est envoyé"""
-		produit['categorie'] = GestionCategorie.getCategorieNom(produit['categorie']) #Changement fait
-		produits.append(produit) #Ajout du produit modifié à la liste créée
 
-	return render(request, 'index.html', 
-		{'produits' : produits, 'images' : GestionImage.getImages()}
-		)
+@api_view(["GET"])
+def home(request):
+    return Response({'message' : 'running'}, status.HTTP_200_OK)

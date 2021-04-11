@@ -19,6 +19,7 @@ def ajoutFournisseur(request):
     #{"nom":"fournisseur1", "telephone": 978456213, "adresse": "adresse", "email": "email@email.com", "estPerson":false}
     if request.method == 'POST' :
         serializer = FournisseurSerializer(data=request.data)
+        print(request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status.HTTP_201_CREATED)
@@ -50,3 +51,8 @@ def fournisseur(request, id: int):
         return Response(status=status.HTTP_204_NO_CONTENT)
     else:
         return Response({'text': 'cette méthode n\'est pas appliquée sur cette fonction'}, status.HTTP_400_BAD_REQUEST)
+
+
+@api_view(["GET"])
+def fournisseurs(request):
+    return Response(FournisseurSerializer(Fournisseur.objects.all(), many=True).data, status.HTTP_200_OK)

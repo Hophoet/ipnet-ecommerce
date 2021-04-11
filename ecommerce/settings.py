@@ -25,7 +25,7 @@ SECRET_KEY = 'rkfx8@%)se_r@4dt3616(wloyk_h8a2)$l-by8h3718ld+k%7w'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -42,20 +42,24 @@ INSTALLED_APPS = [
     #'rest_framework.authtoken',
     #'rest_auth',
 
-    #'django.contrib.sites',
-    #'allauth',
-    #'allauth.account',
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
     #'rest_auth.registration',
 
-    'api',
+    'api.apps.ApiConfig',
+    'corsheaders',
 
-    #'knox',
+    'knox',
 ]
 
 
 SITE_ID = 1
 
+
 MIDDLEWARE = [
+    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -63,7 +67,54 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
 ]
+
+
+MIDDLEWARE_CLASSES = [
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    'corsheaders.middleware.CorsPostCsrfMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.middleware.common.BrokenLinkEmailsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+]
+
+CORS_ALLOW_ALL_ORIGINS = True
+CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_METHODS = [
+    'DELETE',
+    'GET',
+    'OPTIONS',
+    'PATCH',
+    'POST',
+    'PUT',
+]
+from corsheaders.defaults import default_headers
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    'Access-Control-Allow-Origin',
+]
+#APPEND_SLASH=False
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    #'PAGE_SIZE': 10,
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'knox.auth.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication' ,
+       #'rest_framework.authentication.TokenAuthentication',
+   ),
+
+}
+REST_KNOX = {
+    'USER_SERIALIZER': 'auth.serializers.UserRetrieveSerializer'
+}
+
+''' 'DEFAULT_PERMISSION_CLASSES': (
+'rest_framework.permissions.IsAdminUser'
+), '''
 
 ROOT_URLCONF = 'ecommerce.urls'
 
@@ -88,13 +139,25 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'ecommerce001',
+        'USER': 'root',
+        'PASSWORD': 'PaUl@._ADA20100',
+        'HOST': '127.0.0.1',
+        'PORT': '3306',
+        'OPTIONS': {
+            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+        }
     }
 }
+''' DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db1.sqlite3'),
+    }
+} '''
 
 
 # Password validation
@@ -131,9 +194,7 @@ USE_TZ = True
 
 # REST FRAMEWORK
 
-REST_FRAMEWORK = {
-    
-}
+
 #'DEFAULT_AUTHENTICATION_CLASSES': ('knox.auth.TokenAuthentication',)
 #'rest_framework.authentication.TokenAuthentication'
 
